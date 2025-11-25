@@ -1,0 +1,147 @@
+'use client';
+
+import Link from 'next/link';
+import { useState } from 'react';
+import { useCart } from '@/contexts/CartContext';
+
+export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getTotalItems } = useCart();
+  const cartItemsCount = getTotalItems();
+
+  return (
+    <header className="sticky top-0 z-50 bg-white shadow-md">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2">
+            <span className="text-2xl font-bold text-gray-900">VASTRABHANDAR</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex md:items-center md:space-x-8">
+            <Link
+              href="/"
+              className="text-gray-700 hover:text-gray-900 transition-colors font-medium"
+            >
+              Home
+            </Link>
+            <Link
+              href="/?category=men"
+              className="text-gray-700 hover:text-gray-900 transition-colors font-medium"
+            >
+              Men
+            </Link>
+            <Link
+              href="/?category=women"
+              className="text-gray-700 hover:text-gray-900 transition-colors font-medium"
+            >
+              Women
+            </Link>
+            <Link
+              href="/checkout"
+              className="relative text-gray-700 hover:text-gray-900 transition-colors font-medium"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemsCount}
+                </span>
+              )}
+            </Link>
+          </nav>
+
+          {/* Cart and Mobile menu button */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="/checkout"
+              className="relative md:hidden text-gray-700 hover:text-gray-900"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemsCount}
+                </span>
+              )}
+            </Link>
+            <button
+              className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden py-4 space-y-2">
+            <Link
+              href="/"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/?category=men"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Men
+            </Link>
+            <Link
+              href="/?category=women"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Women
+            </Link>
+            <Link
+              href="/checkout"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Cart ({cartItemsCount})
+            </Link>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+}
+
